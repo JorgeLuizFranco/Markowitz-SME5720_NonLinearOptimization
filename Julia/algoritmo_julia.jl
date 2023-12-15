@@ -4,7 +4,7 @@ contour(1:10, 1:10, atan)
 plotlyjs(size = (1100, 500))
 
 # Importando o arquivo modelo_mark.jl
-include("modelo_mark.jl")
+include("solver.jl")
 
 # Dados inicias
 n = 2
