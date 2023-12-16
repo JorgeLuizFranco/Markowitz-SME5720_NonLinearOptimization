@@ -1,10 +1,5 @@
 using JuMP
-import DataFrames
 import Ipopt
-import MultiObjectiveAlgorithms as MOA
-import Plots
-import Statistics
-import StatsPlots
 
 function solver(n, Q, e, r)
     model = Model(Ipopt.Optimizer)

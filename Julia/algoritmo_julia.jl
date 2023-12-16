@@ -7,7 +7,7 @@ plotlyjs(size = (1100, 500))
 include("solver.jl")
 
 # Dados inicias
-n = 2
+n = 6
 
 # DataFrame aleátorio
 Q = rand(Uniform(0,1), 12,n)
