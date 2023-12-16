@@ -7,13 +7,13 @@ plotlyjs(size = (1100, 500))
 include("solver.jl")
 
 # Dados inicias
-n = 6
+n = 2
 
 # DataFrame aleátorio
 Q = rand(Uniform(0,1), 12,n)
 df_Q = DataFrame(Q, :auto)
 
-# Obtendo o retorno em relação a cada retorno do do mês anterior
+# Obtendo o retorno em relação a cada retorno do mês anterior
 returns = diff(Matrix(df_Q); dims = 1) ./ Matrix(df_Q[1:end-1, :])
 
 # Média dos retornos
@@ -25,7 +25,7 @@ Q = Statistics.cov(returns)
 # Definindo a função
 b = 1
 e = rand(Uniform(0,1), n)
-f(x) =  .5*x' * Q * x + e'*x
+f(x) = .5*x' * Q * x - e'*x
 f(x,y) = f([x;y])
 c(x) = [sum(r[i]*x[i] for i = 1:n) - b]
 
@@ -68,8 +68,6 @@ for k =1:20
         println("\nk = $k\n\nLAGRANGIANO\n")
         break
     end
-
-    #global rho = max(1, 10*rho)
 
     #println("$k | $(norm(c(x))) | $y | $(norm(gf(x) + J(x)'*y))")
 end
