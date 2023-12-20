@@ -98,5 +98,6 @@ function impressao(n, f, xk, fxk)
     end
 end
 
-solver(n, Q, e, r)
+tempo = @timed solver(n, Q, e, r)
+println("Tempo (s): $(tempo.time)")
 impressao(n, f, x, f(x))
