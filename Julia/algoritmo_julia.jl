@@ -5,12 +5,13 @@ plotlyjs(size = (1100, 500))
 
 # Importando o arquivo modelo_mark.jl
 include("solver.jl")
+include("Yfinance.jl")
 
 # Dados inicias
 n = 2
 
 # DataFrame aleátorio
-Q = rand(Uniform(0,1), 12,n)
+Q,nome_acoes = acoesRandomIBrx100(n)
 df_Q = DataFrame(Q, :auto)
 
 # Obtendo o retorno em relação a cada retorno do mês anterior
