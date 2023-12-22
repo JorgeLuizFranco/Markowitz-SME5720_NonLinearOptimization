@@ -1,6 +1,3 @@
-using YFinance
-using DataFrames
-using Random
 function acoesRandomIBrx100(num_acoes = 3,acoes = [])
     #gera ações aleatórias do Ibxr100, as 100 ações mais expressivas da B3.
 
@@ -25,7 +22,11 @@ function acoesRandomIBrx100(num_acoes = 3,acoes = [])
     data = vcat([DataFrame(i) for i in data]...);
     data = data[:,:close];
     data = reshape(data,(251,num_acoes));
-    return data, acoes
+
+    # Convertendo para DataFrame
+    data = DataFrame(data, acoes)
+
+    return data
 end
 
 
@@ -35,9 +36,14 @@ function get_pricesAcoes(acoes = [])
     data = vcat([DataFrame(i) for i in data]...);
     data = data[:,:close];
     data = reshape(data,(251,num_acoes));
-    return data, acoes
+
+    # Convertendo para DataFrame
+    data = DataFrame(data, acoes)
+
+    return data
 end
 
+#=
 using Statistics
 Q,nome_acoes = acoesRandomIBrx100(10)
 df_Q = DataFrame(Q, :auto)
@@ -46,3 +52,4 @@ df_Q = DataFrame(Q, :auto)
 returns = diff(Matrix(df_Q); dims = 1) ./ Matrix(df_Q[1:end-1, :])
 
 matriz_cov = cov(Matrix(returns))
+=#

@@ -1,18 +1,17 @@
-using Plots, LinearAlgebra, ForwardDiff, DataFrames, Distributions, Statistics
+using Plots, LinearAlgebra, ForwardDiff, DataFrames, Distributions, Statistics, YFinance, Random, JuMP, Ipopt
 gr(size=(600,400))
 contour(1:10, 1:10, atan)
 plotlyjs(size = (1100, 500))
 
 # Importando o arquivo modelo_mark.jl
 include("solver.jl")
-include("Yfinance.jl")
+include("YFinance.jl")
 
 # Dados inicias
 n = 2
 
 # DataFrame aleátorio
-Q,nome_acoes = acoesRandomIBrx100(n)
-df_Q = DataFrame(Q, :auto)
+df_Q = acoesRandomIBrx100(n)
 
 # Obtendo o retorno em relação a cada retorno do mês anterior
 returns = diff(Matrix(df_Q); dims = 1) ./ Matrix(df_Q[1:end-1, :])
@@ -73,7 +72,7 @@ for k =1:20
     #println("$k | $(norm(c(x))) | $y | $(norm(gf(x) + J(x)'*y))")
 end
 #println("Final | $(norm(c(x)))\nxk = $x\n")
-println("f(xk) = $(f(x))")
+println("f(xk) = $(f(x))\nx: $x\nRestrição (Tem que ser 0): $(sum(r[i]*x[i] for i = 1:n) - b)")
 #println(resultados_f)
 
 function impressao(n, f, xk, fxk)

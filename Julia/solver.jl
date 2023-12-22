@@ -1,6 +1,3 @@
-using JuMP
-import Ipopt
-
 function solver(n, Q, e, r)
     model = Model(Ipopt.Optimizer)
     set_silent(model)
