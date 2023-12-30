@@ -1,0 +1,13 @@
+
+k = 3
+
+LAGRANGIANO
+f(xk) = -3576.9047603843424
+Tempos (s):
+ Lagrangino aumentado: 14.654400747
+ Solver: 0.009493301
+
+Resultados da f por iteracao:
+-3576.9080410638576
+-3576.9047603845447
+-3576.9047603843424
