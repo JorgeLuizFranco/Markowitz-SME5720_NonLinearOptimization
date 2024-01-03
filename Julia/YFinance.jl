@@ -18,11 +18,11 @@ function acoesRandomIBrx100(num_acoes = 3,acoes = [])
     if isempty(acoes)
         acoes = ibxr100[randperm(100)[1:num_acoes]]
     end
-    reshape(acoes, num_acoes)
+    #reshape(acoes, num_acoes)
     data = get_prices.(acoes,range="1y",interval="1d");
     data = vcat([DataFrame(i) for i in data]...);
     data = data[:,:close];
-    data = reshape(data,(251,num_acoes));
+    data = reshape(data,(Int(size(data,1)/num_acoes),num_acoes));
 
     # Convertendo para DataFrame
     data = DataFrame(data, acoes)
@@ -32,11 +32,12 @@ end
 
 
 function get_pricesAcoes(acoes = [])
+    num_acoes = length(acoes);
     #gera devolve preços de ações especificas.
     data = get_prices.(acoes,range="1y",interval="1d");
     data = vcat([DataFrame(i) for i in data]...);
     data = data[:,:close];
-    data = reshape(data,(251,num_acoes));
+    data = reshape(data,(Int(size(data,1)/num_acoes),num_acoes));
 
     # Convertendo para DataFrame
     data = DataFrame(data, acoes)

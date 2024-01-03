@@ -2,16 +2,17 @@ function solver(n, Q, e, r)
     model = Model(Ipopt.Optimizer)
     set_silent(model)
     @variable(model, x[1:n] >= 0)
-    @objective(model, Min, .5*x' * Q * x - e'*x)
-    @constraint(model, r' * x == 1)
+    @objective(model, Min, .5*x' * Q * x - r'*x)
+    @constraint(model, sum(x) == 1)
     optimize!(model)
 
     #println(solution_summary(model))
     #println(model)
     #println("Q:\n$Q\nr:\n$r")
-    println("\nSOLVER:")
+    #println("\nSOLVER:")
     #println("\nx = $(value.(x))\n")
-    println("f(xk) = $(value(.5*(x' * Q * x) - e'*x))\n")
+    #println("f(xk) = $(value(.5*(x' * Q * x) - e'*x))\n")
+    return value(.5*(x' * Q * x) - r'*x), value(.5*(x' * Q * x)), value(- r'*x)
 end
 
 function make_dirs(n, caminho_inst)
@@ -40,7 +41,8 @@ function make_inst(n, caminho_inst, dados_ficticios)
     if dados_ficticios == true
         df_Q = DataFrame(rand(Uniform(0,1), n, n), :auto)
     else
-        df_Q = acoesRandomIBrx100(n)
+        #df_Q = acoesRandomIBrx100(n)
+        df_Q = get_pricesAcoes(["ABEV3.SA","JBSS3.SA"])
     end
 
     caminho = joinpath(caminho_inst, "n=$(n)", "n=$(n)_Q.csv")

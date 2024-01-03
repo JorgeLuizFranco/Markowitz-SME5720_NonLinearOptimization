@@ -8,7 +8,7 @@ plotlyjs(size = (1100, 500))
 include("funcoes_aux.jl")
 include("YFinance.jl")
 
-function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = true)
+function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = false)
     # Crindo os diretórios das instâncias, caso não existam0
     make_dirs(n, caminho_inst)
 
@@ -31,9 +31,9 @@ function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = true
     # Definindo a função
     b = df_b.Vetorb[1]
     e = df_e.VetorE
-    f(x) = .5*x' * Q * x - e'*x
+    f(x) = .5*x' * Q * x - r'*x
     f(x,y) = f([x;y])
-    c(x) = [sum(r[i]*x[i] for i = 1:n) - b]
+    c(x) = [sum(x[i] for i = 1:n) - b]
 
     # Método (Lagrangiano aumentado)
     m = 1 # N° de restrições
@@ -41,7 +41,7 @@ function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = true
     global x = df_x.Vetorx
     global y = [0.0]
 
-    phi(x) = f(x) + rho*(sum(r[i]*x[i] for i = 1:n) - b)^2/2
+    phi(x) = f(x) + rho*(sum(x[i] for i = 1:n) - b)^2/2
     phi(x,y) = phi([x;y])
 
     FD = ForwardDiff
@@ -111,23 +111,24 @@ function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = true
     end
 
     tempo = @timed solver(n, Q, e, r)
-    output *= "Tempos (s):\n Lagrangino aumentado: $(tempo_alg.time)\n Solver: $(tempo.time)\n"
+    output *= "\nx = \n$x\n"
+    output *= "\nSOLVER\nf(xk) = $(tempo.value)\n\nTempos (s):\n Lagrangino aumentado: $(tempo_alg.time)\n Solver: $(tempo.time)\n"
     impressao(n, f, x, f(x))
 
     # Save results and output to a text file
-    open("output_n$n.txt", "w") do file
+    open("./outputs_plot/output_n_real_$n.txt", "w") do file
         println(file, output)
         println(file, "Resultados da f por iteracao:")
         writedlm(file, resultados_f)
     end
 end
 
-instancias = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-#instancias = [10]
+instancias = [2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+#instancias = [2]
 #instancias = [2,10,20]
 for n in instancias
     println("Teste n = $n")
     println("*"^50)
-    testes(n, "instancias_ficticias")
+    testes(n, "instancias_reais")
     println("*"^50)
 end
