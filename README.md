@@ -1,4 +1,4 @@
-# Lagrangean Quadratic Optimization
+# Lagrangean Quadratic Optimization - Markowitz Model
 
 This repository contains Julia scripts for solving Lagrangean Quadratic Optimization problems.
 
