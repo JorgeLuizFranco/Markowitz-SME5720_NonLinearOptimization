@@ -20,7 +20,7 @@ Follow the steps below to run the optimization script:
 
 4. **In the Julia console, execute the following command to include the optimization script:**
     ```julia
-    include("lag_qua.jl")
+    include("algoritmo_julia.jl")
     ```
 
 Feel free to customize the optimization script and explore the functionality.
