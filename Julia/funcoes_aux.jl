@@ -41,8 +41,8 @@ function make_inst(n, caminho_inst, dados_ficticios)
     if dados_ficticios == true
         df_Q = DataFrame(rand(Uniform(0,1), n, n), :auto)
     else
-        #df_Q = acoesRandomIBrx100(n)
-        df_Q = get_pricesAcoes(["ABEV3.SA","JBSS3.SA"])
+        df_Q = acoesRandomIBrx100(n)
+        #df_Q = get_pricesAcoes(["ABEV3.SA","JBSS3.SA"])
     end
 
     caminho = joinpath(caminho_inst, "n=$(n)", "n=$(n)_Q.csv")

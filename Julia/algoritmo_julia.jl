@@ -14,7 +14,7 @@ function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = fals
 
     # O relatório foi feito em cima das instâncias do diretório ./instancias
     # portanto descomentar a linhas make_inst(n) criará novas instâncias (dados != dos relatados)
-    #make_inst(n, caminho_inst, dados_ficticios)
+    make_inst(n, caminho_inst, dados_ficticios)
 
     # Lendo as instâncias
     df_Q, df_e, df_b, df_x = read_inst(n, caminho_inst)
@@ -123,9 +123,9 @@ function testes(n, caminho_inst = "instancias_ficticias", dados_ficticios = fals
     end
 end
 
-instancias = [2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+#instancias = [2, 3, 4, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 #instancias = [2]
-#instancias = [2,10,20]
+instancias = [30, 40, 50, 60, 70, 80, 90, 100]
 for n in instancias
     println("Teste n = $n")
     println("*"^50)

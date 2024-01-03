@@ -16,16 +16,41 @@ function acoesRandomIBrx100(num_acoes = 3,acoes = [])
     ];
 
     if isempty(acoes)
-        acoes = ibxr100[randperm(100)[1:num_acoes]]
+        acoes = ibxr100[randperm(100)]
     end
     #reshape(acoes, num_acoes)
-    data = get_prices.(acoes,range="1y",interval="1d");
-    data = vcat([DataFrame(i) for i in data]...);
+
+    data = []
+    aux = 0;
+    size_cnt = size(get_prices.("ABEV3.SA",range="1y",interval="1d")["close"],1);
+    vetor_data=[]
+
+    cont = 1
+    println("$cont, $(size_cnt)")
+    names = []
+    while cont <= num_acoes
+        println("$cont, $(size(get_prices.(acoes[cont + aux],range="1y",interval="1d")["close"],1))")
+        if size(get_prices.(acoes[cont + aux],range="1y",interval="1d")["close"],1) == size_cnt
+            data = get_prices.(acoes[cont + aux],range="1y",interval="1d");
+            println("Entrou!")
+            push!(names, acoes[cont+aux])
+            cont+=1
+        else
+            aux +=1;
+        end
+        push!(vetor_data, data)
+    end
+    data = vcat([DataFrame(i) for i in vetor_data]...);
     data = data[:,:close];
     data = reshape(data,(Int(size(data,1)/num_acoes),num_acoes));
 
-    # Convertendo para DataFrame
-    data = DataFrame(data, acoes)
+    # data = get_prices.(acoes,range="1y",interval="1d");
+    # data = vcat([DataFrame(i) for i in data]...);
+    # data = data[:,:close];
+    # data = reshape(data,(Int(size(data,1)/num_acoes),num_acoes));
+
+    # # Convertendo para DataFrame
+    data = DataFrame(data, names)
 
     return data
 end
